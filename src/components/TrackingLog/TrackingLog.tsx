@@ -29,7 +29,7 @@ const TrackingLog = () => {
     setPackageType(newPackageType);
   };
 
-  const Message = React.forwardRef<HTMLInputElement>((props, ref) => {
+  const Message = React.forwardRef<HTMLInputElement>((_props, ref) => {
     return (
       <div ref={ref}>
         <PrintMessage
