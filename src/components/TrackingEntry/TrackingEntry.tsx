@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import firebase from "../../Firebase";
 import { onSnapshot, collection, query, where } from "firebase/firestore";
+import axios from "axios";
 import "./TrackingEntry.css";
 
 const TrackingEntry = ({
@@ -85,16 +86,26 @@ const TrackingEntry = ({
     };
   };
 
-  const handleSendText = () => {
+  const handleSendText = async () => {
     const message =
       "Greetings, " +
       customer +
       "! You have a package ready for pickup at Mailpost Sammamish. Tracking Number: " +
       trackingNumber;
 
-    fetch(
-      `http://localhost:3001/send-text?recipient=${phoneNumber}&message=${message}`
-    ).catch((err) => console.error(err));
+    const text = await axios
+      .get("/api/send-text/", {
+        params: {
+          recipient: phoneNumber,
+          message: message,
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
