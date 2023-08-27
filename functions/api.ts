@@ -31,4 +31,4 @@ router.get("/send-text", (req, res) => {
 });
 app.use("/api/", router);
 // app.listen(3001, () => console.log("Running on port 3001"));
-exports.handler = serverless(app);
+module.exports.handler = serverless(app);
