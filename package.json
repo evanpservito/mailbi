@@ -1,0 +1,38 @@
+{
+  "name": "mailbi",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "CI=false && tsc && netlify-lambda build functions",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "start": "tsc && netlify-lambda serve functions"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "firebase": "^10.3.0",
+    "netlify-lambda": "^2.0.16",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-to-print": "^2.14.13",
+    "serverless-http": "^3.2.0",
+    "twilio": "^4.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "netlify-cli": "^16.1.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  }
+}

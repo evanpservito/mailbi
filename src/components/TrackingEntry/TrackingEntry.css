@@ -1,0 +1,11 @@
+.tracking-entry {
+  display: flex;
+  flex-direction: row;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 15px;
+}
