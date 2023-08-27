@@ -1,4 +1,4 @@
 [build] 
-command = "CI= npm build"
+command = "CI= npm run build"
 functions= "functions-build"
 publish = "dist"
