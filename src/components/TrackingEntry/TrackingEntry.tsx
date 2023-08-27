@@ -93,7 +93,7 @@ const TrackingEntry = ({
       "! You have a package ready for pickup at Mailpost Sammamish. Tracking Number: " +
       trackingNumber;
 
-    const text = await axios
+    await axios
       .get("/api/send-text/", {
         params: {
           recipient: phoneNumber,
