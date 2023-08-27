@@ -8,8 +8,8 @@ dotenv.config();
 
 // TODO: CHANGE TO ENV
 const client = new twilio(
-  process.env.VITE_TWILIO_ACCOUNT_SID,
-  process.env.VITE_TWILIO_AUTH_TOKEN
+  import.meta.env.VITE_TWILIO_ACCOUNT_SID,
+  import.meta.env.VITE_TWILIO_AUTH_TOKEN
 );
 
 const app = express();
@@ -27,7 +27,7 @@ router.get("/send-text", (req, res) => {
     .create({
       body: message,
       to: recipient,
-      from: process.env.VITE_TWILIO_PHONE_NUMBER,
+      from: import.meta.env.VITE_TWILIO_PHONE_NUMBER,
     })
     .then((message) => console.log(message.body))
     .err("Error");
