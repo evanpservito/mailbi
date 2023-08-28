@@ -94,17 +94,9 @@ const TrackingEntry = ({
       trackingNumber;
 
     await axios
-      .get("/api/send-text/", {
-        params: {
-          recipient: phoneNumber,
-          message: message,
-        },
-      })
+      .get(`/api?message=${message}&recipient=${phoneNumber}`)
       .then((response) => {
         console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
       });
   };
 
@@ -150,12 +142,9 @@ const TrackingEntry = ({
         </HStack>
       </div>
       <div className="info">
-        {/* <Text>Tracking Number: {trackingNumber}</Text>
-        <Text>Mailbox Number: {mailboxNumber}</Text> */}
         <Text>Customer: {customer}</Text>
         <Text>Phone #: {phoneNumber}</Text>
       </div>
-      {/* <Button onClick={() => handleSubmit()}>Send Text Notification</Button> */}
     </div>
   );
 };
