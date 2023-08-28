@@ -104,6 +104,7 @@ const TrackingLog = () => {
         setMessageSent(true);
         setSentCustomer(customer);
         setSentPhoneNumber(phoneNumber);
+        console.log(response);
       })
       .catch((error) => {
         console.log(error);
