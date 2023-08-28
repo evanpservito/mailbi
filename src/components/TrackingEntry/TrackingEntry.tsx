@@ -29,6 +29,8 @@ const TrackingEntry = ({
   const [phoneNumber, setPhoneNumber] = useState("N/A");
   const [currentTrigger, setCurrentTrigger] = useState(trigger);
   const [packageType, setPackageType] = useState("");
+  const [idle, setIdle] = useState(true);
+  const [messageSent, setMessageSent] = useState(false);
 
   useEffect(() => {
     if (trigger != currentTrigger) {
@@ -87,6 +89,8 @@ const TrackingEntry = ({
   };
 
   const handleSendText = async () => {
+    setMessageSent(false);
+    setIdle(false);
     const message =
       "Greetings, " +
       customer +
@@ -96,7 +100,10 @@ const TrackingEntry = ({
     await axios
       .get(`/api?message=${message}&recipient=${phoneNumber}`)
       .then((response) => {
-        console.log(response.data);
+        setMessageSent(true);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -142,8 +149,18 @@ const TrackingEntry = ({
         </HStack>
       </div>
       <div className="info">
-        <Text>Customer: {customer}</Text>
-        <Text>Phone #: {phoneNumber}</Text>
+        <Text as="b">Customer: {customer}</Text>
+        <Text as="b">Phone #: {phoneNumber}</Text>
+        {messageSent && (
+          <Text as="i" colorScheme="green" color="green.500">
+            Message to {customer} at {phoneNumber} sent successfully.
+          </Text>
+        )}
+        {!idle && !messageSent && (
+          <Text as="i" colorScheme="blue" color="blue.500">
+            Sending message...
+          </Text>
+        )}
       </div>
     </div>
   );
