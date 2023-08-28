@@ -1,9 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { initializeFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import "firebase/firestore";
 
-// TODO: CHANGE TO ENV
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -19,3 +19,4 @@ const db = initializeFirestore(firebase, {
   experimentalForceLongPolling: true,
 });
 export default db;
+export const auth = getAuth(firebase);

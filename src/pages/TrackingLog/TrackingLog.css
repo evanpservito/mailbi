@@ -1,0 +1,13 @@
+.tracking-entry {
+  padding: 20px;
+}
+.customer-info {
+  width: 1000px;
+}
+
+.submit-buttons {
+  width: 300px;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+}
