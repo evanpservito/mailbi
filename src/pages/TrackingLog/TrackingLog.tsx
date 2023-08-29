@@ -36,6 +36,7 @@ const TrackingLog = () => {
   const [sentPhoneNumber, setSentPhoneNumber] = useState("N/A");
   const [idle, setIdle] = useState(true); // do not display any status at start
   const [messageSent, setMessageSent] = useState(false);
+  const [sendMessageError, setSendMessageError] = useState(false);
 
   const { user, logOut } = UserAuth();
 
@@ -92,6 +93,7 @@ const TrackingLog = () => {
   const handleSendText = async () => {
     setMessageSent(false);
     setIdle(false);
+    setSendMessageError(false);
     const message =
       "Greetings, " +
       customer +
@@ -107,6 +109,7 @@ const TrackingLog = () => {
         console.log(response);
       })
       .catch((error) => {
+        setSendMessageError(true);
         console.log(error);
       });
   };
@@ -179,15 +182,20 @@ const TrackingLog = () => {
             <VStack className="customer-info" spacing="0px">
               <Text as="b">Customer: {customer}</Text>
               <Text as="b">Phone #: {phoneNumber}</Text>
-              {messageSent && (
+              {messageSent && !sendMessageError && (
                 <Text as="i" colorScheme="green" color="green.500">
                   Message to {sentCustomer} at {sentPhoneNumber} sent
                   successfully.
                 </Text>
               )}
-              {!idle && !messageSent && (
+              {!idle && !messageSent && !sendMessageError && (
                 <Text as="i" colorScheme="blue" color="blue.500">
                   Sending message...
+                </Text>
+              )}
+              {sendMessageError && !messageSent && (
+                <Text as="i" colorScheme="red" color="red.500">
+                  ERROR sending message.
                 </Text>
               )}
             </VStack>

@@ -27,6 +27,7 @@ const Login = () => {
       <Text as="b" fontSize="2xl">
         Login
       </Text>
+      {/* <Button onClick={authorizeUser()}>Check for authorized user</Button> */}
       <GoogleButton onClick={handleGoogleLogin} />
     </div>
   );
