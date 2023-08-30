@@ -21,7 +21,6 @@ import firebase from "../../Firebase";
 import { onSnapshot, collection, query, where } from "firebase/firestore";
 import axios from "axios";
 import { UserAuth } from "../../context/AuthContext";
-import { Link } from "react-router-dom";
 import "./TrackingLog.css";
 
 const TrackingLog = () => {
@@ -38,15 +37,8 @@ const TrackingLog = () => {
   const [messageSent, setMessageSent] = useState(false);
   const [sendMessageError, setSendMessageError] = useState(false);
 
-  const { user, logOut } = UserAuth();
+  const { user } = UserAuth();
 
-  const handleSignOut = async () => {
-    try {
-      await logOut();
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
     if (mailboxNumber != "" && trackingNumber != "" && packageType != "") {
       setIsFilled(true);
@@ -134,12 +126,10 @@ const TrackingLog = () => {
 
   return (
     <div>
-      <div className="title">
-        <Text as="b" fontSize="2xl">
-          Mailbi
-        </Text>
-      </div>
-      <Text>Welcome, {user?.displayName}</Text>
+      <Text className="log-title">Welcome, {user?.displayName}</Text>
+      <Text as="b" fontSize="4xl">
+        Tracking Log
+      </Text>
       <div className="tracking-entry">
         <div className="entry">
           <HStack
@@ -218,12 +208,6 @@ const TrackingLog = () => {
             Print Notification
           </Button>
         </div>
-      )}
-
-      {user?.displayName ? (
-        <Button onClick={handleSignOut}>Logout</Button>
-      ) : (
-        <Link to="/login">Login</Link>
       )}
     </div>
   );

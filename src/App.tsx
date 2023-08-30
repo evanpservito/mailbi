@@ -7,12 +7,14 @@ import Footer from "./components/Footer/Footer";
 import "./App.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import Protected from "./components/Protected";
+import { Navbar } from "./components/Navbar/Navbar";
 
 function App() {
   return (
     <div className="App">
       <AuthContextProvider>
         <ChakraProvider>
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

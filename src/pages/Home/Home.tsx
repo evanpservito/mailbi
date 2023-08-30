@@ -1,13 +1,12 @@
-import { Text, Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Text } from "@chakra-ui/react";
 
 const Home = () => {
   return (
     <div>
-      <Text fontSize="2xl">Home</Text>
-      <Button>
-        <Link to="/login">Login with Google</Link>
-      </Button>
+      <Text as="b" fontSize="2xl">
+        Mailbi Home
+      </Text>
+      <Text>Please login to continue.</Text>
     </div>
   );
 };

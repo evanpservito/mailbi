@@ -1,7 +1,7 @@
 {
   "name": "mailbi",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.0",
     "@chakra-ui/react": "^2.8.0",
     "@netlify/functions": "^2.0.2",
     "@types/express": "^4.17.17",
