@@ -101,7 +101,9 @@ const TrackingLog = () => {
       trackingNumber;
 
     await axios
-      .get(`/api?message=${message}&recipient=${phoneNumber}`)
+      .get(
+        `/.netlify/functions/api?message=${message}&recipient=${phoneNumber}`
+      )
       .then((response) => {
         setMessageSent(true);
         setSentCustomer(customer);
