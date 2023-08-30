@@ -6,8 +6,8 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../Firebase";
-import firebase from "../Firebase";
-import { onSnapshot, collection, query, where } from "firebase/firestore";
+// import firebase from "../Firebase";
+// import { onSnapshot, collection, query, where } from "firebase/firestore";
 
 const AuthContext = createContext<any>(null);
 
