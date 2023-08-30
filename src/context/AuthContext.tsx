@@ -6,25 +6,28 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../Firebase";
-// import firebase from "../Firebase";
-// import { onSnapshot, collection, query, where } from "firebase/firestore";
+import firebase from "../Firebase";
+import { onSnapshot, collection, query, where } from "firebase/firestore";
 
 const AuthContext = createContext<any>(null);
 
 export const AuthContextProvider = ({ children }: any) => {
   const [user, setUser] = useState({});
-  //const [authorizedUsers, setAuthorizedUsers] = useState({});
 
-  // ensure user is authorized before accessing tracking log
+  // // if error occurs, then user is not authorized; TODO: update later
   // const getAuthorizedEmails = () => {
-  //   const q = query(collection(firebase, "allow-users"));
-  //   const unsub = onSnapshot(q, (querySnapshot: any) => {
-  //     const items: any[] = [];
-  //     querySnapshot.forEach((doc: any) => {
-  //       items.push(doc.data()["email"]);
+  //   try {
+  //     const q = query(collection(firebase, "allow-users"));
+  //     const unsub = onSnapshot(q, (querySnapshot: any) => {
+  //       const items: any[] = [];
+  //       querySnapshot.forEach((doc: any) => {
+  //         items.push(doc.data()["email"]);
+  //       });
   //     });
-  //     setAuthorizedUsers(items);
-  //   });
+  //   } catch {
+  //     console.log("unauthorized user");
+  //     // logOut();
+  //   }
   //   return () => {
   //     unsub();
   //   };
@@ -39,14 +42,15 @@ export const AuthContextProvider = ({ children }: any) => {
     signOut(auth);
   };
   useEffect(() => {
-    //getAuthorizedEmails();
     const unsubscribe = onAuthStateChanged(auth, (currentUser: any) => {
-      // if (currentUser?.email in authorizedUsers == false) {
-      //   console.log("unauthorized user", currentUser?.email, authorizedUsers);
-      //   logOut();
+      // try {
+      //   getAuthorizedEmails();
+      // } catch {
+      //   console.log("unauthorized user");
+      //   // logOut();
       // }
       setUser(currentUser);
-      // console.log("user: ", currentUser);
+      console.log("user: ", currentUser);
     });
     return () => {
       unsubscribe();
