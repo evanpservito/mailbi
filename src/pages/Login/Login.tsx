@@ -3,6 +3,7 @@ import GoogleButton from "react-google-button";
 import { UserAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 const Login = () => {
   const { googleLogin, user } = UserAuth();
@@ -23,11 +24,10 @@ const Login = () => {
   }, [user]);
 
   return (
-    <div>
+    <div className="login">
       <Text as="b" fontSize="2xl">
         Login
       </Text>
-      {/* <Button onClick={authorizeUser()}>Check for authorized user</Button> */}
       <GoogleButton onClick={handleGoogleLogin} />
     </div>
   );
