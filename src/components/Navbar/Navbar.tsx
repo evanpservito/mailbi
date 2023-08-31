@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { UserAuth } from "../../context/AuthContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import logo from "/mailbi logo v1.png";
 
 export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +20,7 @@ export const Navbar = () => {
   return (
     <nav>
       <NavLink to="/tracking-log" className="title">
-        Mailbi
+        <img src={logo} className="app-logo" alt="logo" />
       </NavLink>
       <HamburgerIcon
         className="menu"
