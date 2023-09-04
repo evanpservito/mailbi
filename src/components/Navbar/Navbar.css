@@ -13,6 +13,7 @@ nav .title {
   text-decoration: none;
   color: black;
   width: 6vh; /* fix later */
+  height: 6vh; /* fix later */
 }
 
 nav ul {

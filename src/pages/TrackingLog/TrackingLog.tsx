@@ -18,7 +18,14 @@ import {
   StackDivider,
 } from "@chakra-ui/react";
 import firebase from "../../Firebase";
-import { onSnapshot, collection, query, where } from "firebase/firestore";
+import db from "../../Firebase";
+import {
+  onSnapshot,
+  collection,
+  query,
+  where,
+  addDoc,
+} from "firebase/firestore";
 import axios from "axios";
 import { UserAuth } from "../../context/AuthContext";
 import "./TrackingLog.css";
@@ -36,7 +43,6 @@ const TrackingLog = () => {
   const [idle, setIdle] = useState(true); // do not display any status at start
   const [messageSent, setMessageSent] = useState(false);
   const [sendMessageError, setSendMessageError] = useState(false);
-
   const { user } = UserAuth();
 
   useEffect(() => {
@@ -82,6 +88,21 @@ const TrackingLog = () => {
     };
   };
 
+  const addPendingPackage = async (
+    trackingNumber: string,
+    mailboxNumber: string,
+    customer: string,
+    dateScanned: string
+  ) => {
+    const docRef = await addDoc(collection(db, "pending-packages"), {
+      trackingNumber: trackingNumber,
+      mailboxNumber: mailboxNumber,
+      customer: customer,
+      dateScanned: dateScanned,
+    });
+    console.log("Document written with ID: ", docRef.id);
+  };
+
   const handleSendText = async () => {
     setMessageSent(false);
     setIdle(false);
@@ -106,6 +127,11 @@ const TrackingLog = () => {
         setSendMessageError(true);
         console.log(error);
       });
+
+    const today = new Date();
+    const dateScanned =
+      today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
+    addPendingPackage(trackingNumber, mailboxNumber, customer, dateScanned);
   };
 
   const Message = React.forwardRef<HTMLInputElement>((_props, ref) => {
@@ -202,7 +228,7 @@ const TrackingLog = () => {
       {isFilled && (
         <div className="submit-buttons">
           <Button className="send-text-button" onClick={() => handleSendText()}>
-            Send Text
+            Scan & Send Text
           </Button>
           <Button className="print-button" onClick={() => handlePrint()}>
             Print Notification

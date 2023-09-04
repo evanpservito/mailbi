@@ -33,6 +33,9 @@ export const Navbar = () => {
           <NavLink to="/tracking-log">Tracking Log</NavLink>
         </li>
         <li>
+          <NavLink to="/pending-packages">Pending Packages</NavLink>
+        </li>
+        <li>
           {user?.displayName ? (
             <NavLink to="/tracking-log" onClick={handleSignOut}>
               Log Out
