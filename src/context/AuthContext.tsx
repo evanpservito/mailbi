@@ -50,7 +50,7 @@ export const AuthContextProvider = ({ children }: any) => {
       //   // logOut();
       // }
       setUser(currentUser);
-      console.log("user: ", currentUser);
+      // console.log("user: ", currentUser);
     });
     return () => {
       unsubscribe();

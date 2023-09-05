@@ -1,0 +1,27 @@
+.title {
+  padding: 1rem;
+}
+
+.packages-table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.table-head {
+  z-index: 1;
+}
+
+.checkbox {
+  z-index: 0;
+}
+
+.search-filter {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: row;
+  gap: 1rem;
+  padding-left: 1rem;
+}
