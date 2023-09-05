@@ -94,13 +94,14 @@ const TrackingLog = () => {
     customer: string,
     dateScanned: string
   ) => {
-    const docRef = await addDoc(collection(db, "pending-packages"), {
+    await addDoc(collection(db, "pending-packages"), {
       trackingNumber: trackingNumber,
       mailboxNumber: mailboxNumber,
       customer: customer,
       dateScanned: dateScanned,
+      status: "Pending",
     });
-    console.log("Document written with ID: ", docRef.id);
+    // console.log("Added package with ID: ", docRef.id);
   };
 
   const handleSendText = async () => {
@@ -225,16 +226,22 @@ const TrackingLog = () => {
         <Message ref={componentRef} />
       </div>
 
-      {isFilled && (
-        <div className="submit-buttons">
-          <Button className="send-text-button" onClick={() => handleSendText()}>
-            Scan & Send Text
-          </Button>
-          <Button className="print-button" onClick={() => handlePrint()}>
-            Print Notification
-          </Button>
-        </div>
-      )}
+      <div className="submit-buttons">
+        <Button
+          isDisabled={!isFilled}
+          className="send-text-button"
+          onClick={() => handleSendText()}
+        >
+          Scan & Send Text
+        </Button>
+        <Button
+          isDisabled={!isFilled}
+          className="print-button"
+          onClick={() => handlePrint()}
+        >
+          Print Notification
+        </Button>
+      </div>
     </div>
   );
 };

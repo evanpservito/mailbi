@@ -4,3 +4,11 @@
   justify-content: center;
   padding: 1rem;
 }
+
+.table-head {
+  z-index: 1;
+}
+
+.checkbox {
+  z-index: 0;
+}
