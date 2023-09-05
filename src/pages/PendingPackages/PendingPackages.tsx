@@ -23,13 +23,6 @@ import {
   Th,
   Thead,
   Tr,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
 
@@ -39,6 +32,7 @@ import {
   TimeIcon,
   CheckIcon,
 } from "@chakra-ui/icons";
+import ConfirmPackagesModal from "../../components/ConfirmPackagesModal/ConfirmPackagesModal";
 import "./PendingPackages.css";
 
 const PendingPackages = () => {
@@ -48,7 +42,6 @@ const PendingPackages = () => {
   const [showCollected, setShowCollected] = useState(false);
   const [order, setOrder] = useState("");
   const [focusedColumn, setFocusedColumn] = useState("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Get pending packages from Firebase
   useEffect(() => {
@@ -106,8 +99,6 @@ const PendingPackages = () => {
       });
       setPackages(firebasePackages);
     });
-
-    onClose();
   };
 
   const timeStampToDate = (date: any) => {
@@ -230,36 +221,10 @@ const PendingPackages = () => {
           </Table>
         </TableContainer>
       </div>
-      <Button isDisabled={collectedPackages.length == 0} onClick={onOpen}>
-        Confirm Collected Packages
-      </Button>
-      {/* <Button onClick={() => setShowCollected(!showCollected)}>
-        Show Collected Packages
-      </Button> */}
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Confirm Package Collection</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>
-              Please confirm that the packages have been picked up and are no
-              longer pending/in-store. Confirming will mark the selected
-              packages from "Pending" to "Collected".
-            </Text>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button colorScheme="green" onClick={confirmPendingPackages}>
-              Confirm Package Collection
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <ConfirmPackagesModal
+        confirmPendingPackages={confirmPendingPackages}
+        numPackages={collectedPackages.length}
+      />
     </>
   );
 };
