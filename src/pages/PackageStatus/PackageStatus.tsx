@@ -14,7 +14,6 @@ import db from "../../Firebase";
 import {
   Text,
   Input,
-  Button,
   Checkbox,
   Table,
   TableContainer,
@@ -23,7 +22,8 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
+  Select,
+  Button,
 } from "@chakra-ui/react";
 
 import {
@@ -33,15 +33,17 @@ import {
   CheckIcon,
 } from "@chakra-ui/icons";
 import ConfirmPackagesModal from "../../components/ConfirmPackagesModal/ConfirmPackagesModal";
-import "./PendingPackages.css";
+import "./PackageStatus.css";
 
-const PendingPackages = () => {
+const PackageStatus = () => {
   const [packages, setPackages] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [collectedPackages, setCollectedPackages] = useState<string[]>([]);
-  const [showCollected, setShowCollected] = useState(false);
   const [order, setOrder] = useState("");
   const [focusedColumn, setFocusedColumn] = useState("");
+  const [search, setSearch] = useState("");
+  const [filterOption, setFilterOption] = useState("");
+  const [toggleCollectedView, setToggleCollectedView] = useState(false);
 
   // Get pending packages from Firebase
   useEffect(() => {
@@ -133,13 +135,36 @@ const PendingPackages = () => {
 
   return (
     <>
-      <Text as="b" fontSize="4xl">
-        Pending Packages
-      </Text>
+      <div className="title">
+        <Text as="b" fontSize="4xl">
+          Package Status
+        </Text>
+      </div>
+      <div className="search-filter">
+        <Input
+          placeholder="Search"
+          width="200px"
+          onChange={(e) => setSearch(e.target.value)}
+          isDisabled={filterOption === ""}
+        />
+        <Select
+          width="200px"
+          placeholder="Filter by..."
+          onChange={(e) => setFilterOption(e.target.value)}
+        >
+          <option value="trackingNumber">Tracking Number</option>
+          <option value="mailboxNumber">Mailbox Number</option>
+          <option value="customer">Customer</option>
+          <option value="dateScanned">Date Scanned</option>
+          <option value="status">Status</option>
+        </Select>
+        <Button onClick={() => setToggleCollectedView(!toggleCollectedView)}>
+          {toggleCollectedView ? "Hide" : "Show"} Collected Packages
+        </Button>
+      </div>
       <div className="packages-table">
-        <TableContainer overflowY="auto" maxHeight="275px">
-          <Input placeholder="Filter" width="200px" />
-          <Table variant="simple" width="1000px">
+        <TableContainer overflowY="auto" maxHeight="275px" w="100%">
+          <Table variant="simple">
             <Thead
               className="table-head"
               position="sticky"
@@ -191,30 +216,41 @@ const PendingPackages = () => {
             </Thead>
             <Tbody>
               {packages.length > 0 ? (
-                packages.map((p: any) => (
-                  <Tr key={p.key}>
-                    <Td>{p.trackingNumber}</Td>
-                    <Td>{p.mailboxNumber}</Td>
-                    <Td>{p.customer}</Td>
-                    <Td>{p.dateScanned}</Td>
-                    <Td color={p.status == "Pending" ? "#cc9e12" : "green"}>
-                      {p.status}
-                    </Td>
-                    <Td>
-                      {(p.status == "Pending" && (
-                        <Checkbox
-                          className="checkbox"
-                          onChange={() => modifyCollectedPackages(p.key)}
-                        />
-                      )) ||
-                        (p.status == "Collected" &&
-                          timeStampToDate(p.dateCollected))}
-                    </Td>
-                  </Tr>
-                ))
+                packages
+                  .filter((p: any) => {
+                    return search.toLowerCase() === ""
+                      ? p
+                      : p[filterOption].toLowerCase().includes(search);
+                  })
+                  .filter((p: any) => {
+                    return toggleCollectedView == false
+                      ? p["status"].includes("Pending")
+                      : p;
+                  })
+                  .map((p: any) => (
+                    <Tr key={p.key}>
+                      <Td>{p.trackingNumber}</Td>
+                      <Td>{p.mailboxNumber}</Td>
+                      <Td>{p.customer}</Td>
+                      <Td>{p.dateScanned}</Td>
+                      <Td color={p.status == "Pending" ? "#cc9e12" : "green"}>
+                        {p.status}
+                      </Td>
+                      <Td>
+                        {(p.status == "Pending" && (
+                          <Checkbox
+                            className="checkbox"
+                            onChange={() => modifyCollectedPackages(p.key)}
+                          />
+                        )) ||
+                          (p.status == "Collected" &&
+                            timeStampToDate(p.dateCollected))}
+                      </Td>
+                    </Tr>
+                  ))
               ) : (
                 <Tr>
-                  <Td>N/A</Td>
+                  <Td>No packages to display.</Td>
                 </Tr>
               )}
             </Tbody>
@@ -229,4 +265,4 @@ const PendingPackages = () => {
   );
 };
 
-export default PendingPackages;
+export default PackageStatus;

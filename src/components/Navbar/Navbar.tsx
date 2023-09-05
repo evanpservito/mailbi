@@ -33,7 +33,7 @@ export const Navbar = () => {
           <NavLink to="/tracking-log">Tracking Log</NavLink>
         </li>
         <li>
-          <NavLink to="/pending-packages">Pending Packages</NavLink>
+          <NavLink to="/pending-packages">Package Status</NavLink>
         </li>
         <li>
           {user?.displayName ? (

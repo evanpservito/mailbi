@@ -3,7 +3,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
-import PendingPackages from "./pages/PendingPackages/PendingPackages";
+import PendingPackages from "./pages/PackageStatus/PackageStatus";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
 import { AuthContextProvider } from "./context/AuthContext";

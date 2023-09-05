@@ -8,12 +8,10 @@ nav {
 }
 
 nav .title {
-  margin: 0.75rem;
   font-weight: bold;
   text-decoration: none;
   color: black;
-  width: 6vh; /* fix later */
-  height: 6vh; /* fix later */
+  width: 70px;
 }
 
 nav ul {
