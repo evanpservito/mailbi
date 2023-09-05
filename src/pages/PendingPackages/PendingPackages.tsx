@@ -6,7 +6,9 @@ import {
   collection,
   onSnapshot,
   query,
+  Timestamp,
 } from "firebase/firestore";
+
 import firebase from "../../Firebase";
 import db from "../../Firebase";
 import {
@@ -30,6 +32,13 @@ import {
   ModalCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
+
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  TimeIcon,
+  CheckIcon,
+} from "@chakra-ui/icons";
 import "./PendingPackages.css";
 
 const PendingPackages = () => {
@@ -37,7 +46,8 @@ const PendingPackages = () => {
   const [loading, setLoading] = useState(true);
   const [collectedPackages, setCollectedPackages] = useState<string[]>([]);
   const [showCollected, setShowCollected] = useState(false);
-
+  const [order, setOrder] = useState("");
+  const [focusedColumn, setFocusedColumn] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // Get pending packages from Firebase
@@ -52,6 +62,7 @@ const PendingPackages = () => {
         });
       });
       setPackages(firebasePackages);
+      // console.log(firebasePackages);
       setLoading(false);
     });
 
@@ -76,7 +87,11 @@ const PendingPackages = () => {
 
   const confirmPendingPackages = async () => {
     await collectedPackages.forEach((p: any) => {
-      updateDoc(doc(db, "pending-packages", p), { status: "Collected" });
+      updateDoc(doc(db, "pending-packages", p), {
+        status: "Collected",
+        dateCollected: Timestamp.fromDate(new Date()),
+      });
+
       modifyCollectedPackages(p);
     });
 
@@ -95,6 +110,36 @@ const PendingPackages = () => {
     onClose();
   };
 
+  const timeStampToDate = (date: any) => {
+    const newDate = new Timestamp(date.seconds, date.nanoseconds).toDate();
+
+    return (
+      newDate.getMonth() +
+      1 +
+      "/" +
+      newDate.getDate() +
+      "/" +
+      newDate.getFullYear()
+    );
+  };
+
+  const sortPackages = (column: string) => {
+    if (order === "ASC" || order === "") {
+      const sortedPackages = [...packages].sort((a, b) =>
+        a[column].toLowerCase() > b[column].toLowerCase() ? 1 : -1
+      );
+      setPackages(sortedPackages);
+      setOrder("DSC");
+    } else if (order === "DSC" || order === "") {
+      const sortedPackages = [...packages].sort((a, b) =>
+        a[column].toLowerCase() < b[column].toLowerCase() ? 1 : -1
+      );
+      setPackages(sortedPackages);
+      setOrder("ASC");
+    }
+    setFocusedColumn(column);
+  };
+
   return (
     <>
       <Text as="b" fontSize="4xl">
@@ -111,11 +156,45 @@ const PendingPackages = () => {
               bgColor="#b5e3eb"
             >
               <Tr>
-                <Th>Tracking Number</Th>
-                <Th>Mailbox Number</Th>
-                <Th>Customer</Th>
-                <Th>Date Scanned</Th>
-                <Th>Status</Th>
+                <Th
+                  cursor="pointer"
+                  onClick={() => sortPackages("trackingNumber")}
+                >
+                  Tracking Number{" "}
+                  {focusedColumn === "trackingNumber" &&
+                    ((order === "ASC" && <ArrowUpIcon />) ||
+                      (order === "DSC" && <ArrowDownIcon />))}
+                </Th>
+                <Th
+                  cursor="pointer"
+                  onClick={() => sortPackages("mailboxNumber")}
+                >
+                  Mailbox Number{" "}
+                  {focusedColumn === "mailboxNumber" &&
+                    ((order === "ASC" && <ArrowUpIcon />) ||
+                      (order === "DSC" && <ArrowDownIcon />))}
+                </Th>
+                <Th cursor="pointer" onClick={() => sortPackages("customer")}>
+                  Customer{" "}
+                  {focusedColumn === "customer" &&
+                    ((order === "ASC" && <ArrowUpIcon />) ||
+                      (order === "DSC" && <ArrowDownIcon />))}
+                </Th>
+                <Th
+                  cursor="pointer"
+                  onClick={() => sortPackages("dateScanned")}
+                >
+                  Date Scanned{" "}
+                  {focusedColumn === "dateScanned" &&
+                    ((order === "ASC" && <ArrowUpIcon />) ||
+                      (order === "DSC" && <ArrowDownIcon />))}
+                </Th>
+                <Th cursor="pointer" onClick={() => sortPackages("status")}>
+                  Status{" "}
+                  {focusedColumn === "status" &&
+                    ((order === "ASC" && <TimeIcon />) ||
+                      (order === "DSC" && <CheckIcon />))}
+                </Th>
                 <Th>Collected</Th>
               </Tr>
             </Thead>
@@ -131,12 +210,14 @@ const PendingPackages = () => {
                       {p.status}
                     </Td>
                     <Td>
-                      {p.status == "Pending" && (
+                      {(p.status == "Pending" && (
                         <Checkbox
                           className="checkbox"
                           onChange={() => modifyCollectedPackages(p.key)}
                         />
-                      )}
+                      )) ||
+                        (p.status == "Collected" &&
+                          timeStampToDate(p.dateCollected))}
                     </Td>
                   </Tr>
                 ))
@@ -152,9 +233,9 @@ const PendingPackages = () => {
       <Button isDisabled={collectedPackages.length == 0} onClick={onOpen}>
         Confirm Collected Packages
       </Button>
-      <Button onClick={() => setShowCollected(!showCollected)}>
+      {/* <Button onClick={() => setShowCollected(!showCollected)}>
         Show Collected Packages
-      </Button>
+      </Button> */}
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
