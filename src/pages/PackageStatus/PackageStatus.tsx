@@ -106,14 +106,7 @@ const PackageStatus = () => {
   const timeStampToDate = (date: any) => {
     const newDate = new Timestamp(date.seconds, date.nanoseconds).toDate();
 
-    return (
-      newDate.getMonth() +
-      1 +
-      "/" +
-      newDate.getDate() +
-      "/" +
-      newDate.getFullYear()
-    );
+    return newDate.toLocaleString();
   };
 
   const sortPackages = (column: string) => {
@@ -163,7 +156,7 @@ const PackageStatus = () => {
         </Button>
       </div>
       <div className="packages-table">
-        <TableContainer overflowY="auto" maxHeight="275px" w="100%">
+        <TableContainer overflowY="auto" maxHeight="300px" w="100%">
           <Table variant="simple">
             <Thead
               className="table-head"

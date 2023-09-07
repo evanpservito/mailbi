@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .table-head {
@@ -23,5 +23,5 @@
   justify-content: left;
   flex-direction: row;
   gap: 1rem;
-  padding-left: 1rem;
+  padding-left: 2rem;
 }
