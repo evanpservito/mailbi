@@ -29,12 +29,21 @@ export const Navbar = () => {
         }}
       />
       <ul className={menuOpen ? "open" : ""}>
-        <li>
-          <NavLink to="/tracking-log">Tracking Log</NavLink>
-        </li>
-        <li>
-          <NavLink to="/pending-packages">Package Status</NavLink>
-        </li>
+        {user?.displayName && (
+          <li>
+            <NavLink to="/tracking-log">Tracking Log</NavLink>
+          </li>
+        )}
+        {user?.displayName && (
+          <li>
+            <NavLink to="/package-status">Package Status</NavLink>
+          </li>
+        )}
+        {user?.displayName && (
+          <li>
+            <NavLink to="/custom-message">Custom Message</NavLink>
+          </li>
+        )}
         <li>
           {user?.displayName ? (
             <NavLink to="/tracking-log" onClick={handleSignOut}>
