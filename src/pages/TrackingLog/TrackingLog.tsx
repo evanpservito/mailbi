@@ -27,7 +27,6 @@ import {
   addDoc,
 } from "firebase/firestore";
 import axios from "axios";
-import { UserAuth } from "../../context/AuthContext";
 import "./TrackingLog.css";
 
 const TrackingLog = () => {
@@ -43,7 +42,6 @@ const TrackingLog = () => {
   const [idle, setIdle] = useState(true); // do not display any status at start
   const [messageSent, setMessageSent] = useState(false);
   const [sendMessageError, setSendMessageError] = useState(false);
-  const { user } = UserAuth();
 
   useEffect(() => {
     if (mailboxNumber != "" && trackingNumber != "" && packageType != "") {
@@ -153,7 +151,6 @@ const TrackingLog = () => {
 
   return (
     <div>
-      <Text className="log-title">Welcome, {user?.displayName}</Text>
       <Text as="b" fontSize="4xl">
         Tracking Log
       </Text>

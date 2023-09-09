@@ -3,15 +3,18 @@ import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import { UserAuth } from "../../context/AuthContext";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
 import logo from "/mailbi logo v1.png";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logOut } = UserAuth();
+  const { user, logout } = UserAuth();
 
   const handleSignOut = async () => {
     try {
-      await logOut();
+      await logout();
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
@@ -29,28 +32,26 @@ export const Navbar = () => {
         }}
       />
       <ul className={menuOpen ? "open" : ""}>
-        {user?.displayName && (
+        {user && (
           <li>
             <NavLink to="/tracking-log">Tracking Log</NavLink>
           </li>
         )}
-        {user?.displayName && (
+        {user && (
           <li>
             <NavLink to="/package-status">Package Status</NavLink>
           </li>
         )}
-        {user?.displayName && (
+        {user && (
           <li>
             <NavLink to="/custom-message">Custom Message</NavLink>
           </li>
         )}
         <li>
-          {user?.displayName ? (
+          {user && (
             <NavLink to="/tracking-log" onClick={handleSignOut}>
               Log Out
             </NavLink>
-          ) : (
-            <NavLink to="/login">Login</NavLink>
           )}
         </li>
       </ul>

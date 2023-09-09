@@ -1,6 +1,46 @@
 .login {
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-side {
+  height: 100%;
+  flex: 1;
+}
+
+.login-form {
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  padding: 5rem;
+}
+
+.alert {
+  margin-bottom: 1rem;
+}
+
+.input-email {
+  margin-bottom: 1rem;
+}
+
+.input-password {
+  margin-bottom: 1rem;
+}
+
+.logo-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex: 1;
+  background-color: bisque;
+}
+
+.app-logo {
+  width: 75%;
 }

@@ -127,7 +127,7 @@ const PackageStatus = () => {
   };
 
   return (
-    <>
+    <div className="package-status">
       <div className="title">
         <Text as="b" fontSize="4xl">
           Package Status
@@ -254,7 +254,7 @@ const PackageStatus = () => {
         confirmPendingPackages={confirmPendingPackages}
         numPackages={collectedPackages.length}
       />
-    </>
+    </div>
   );
 };
 
