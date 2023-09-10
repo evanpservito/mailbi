@@ -16,7 +16,6 @@ function App() {
     <div className="App">
       <AuthContextProvider>
         <ChakraProvider>
-          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -24,7 +23,9 @@ function App() {
               path="/tracking-log"
               element={
                 <Protected>
+                  <Navbar />
                   <TrackingLog />
+                  <Footer />
                 </Protected>
               }
             />
@@ -32,7 +33,9 @@ function App() {
               path="/package-status"
               element={
                 <Protected>
+                  <Navbar />
                   <PackageStatus />
+                  <Footer />
                 </Protected>
               }
             />
@@ -40,12 +43,13 @@ function App() {
               path="/custom-message"
               element={
                 <Protected>
+                  <Navbar />
                   <CustomMessage />
+                  <Footer />
                 </Protected>
               }
             />
           </Routes>
-          <Footer />
         </ChakraProvider>
       </AuthContextProvider>
     </div>

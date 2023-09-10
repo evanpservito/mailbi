@@ -4,6 +4,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 1rem;
+  background-color: white;
 }
 
 .app-logo-footer {

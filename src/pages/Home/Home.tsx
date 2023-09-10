@@ -9,6 +9,8 @@ const Home = () => {
   useEffect(() => {
     if (user != null) {
       navigate("/tracking-log");
+    } else {
+      navigate("/login");
     }
   }, [user]);
 
