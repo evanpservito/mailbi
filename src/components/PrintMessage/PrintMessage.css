@@ -1,7 +1,16 @@
-.print-sheet {
-  padding: 20px;
-}
-.print-sheet-2 {
-  text-align: center;
-  padding: 250px 20px 20px 20px;
+@media print {
+  .print-sheet-first {
+    margin-top: 15rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    clear: both;
+    page-break-after: always;
+  }
+  .print-sheet-second {
+    align-items: center;
+    text-align: center;
+    margin-top: 10rem;
+    clear: both;
+    page-break-after: always;
+  }
 }
