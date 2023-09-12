@@ -8,7 +8,7 @@ const PrintMessage = ({ mailboxNumber, trackingNumber, packageType }: any) => {
     today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
   return (
     <div>
-      <div className="print-sheet">
+      <div className="print-sheet-first">
         <Text as="b" fontSize="4xl">
           Mailpost Alert! You have a package ready for pickup.
         </Text>
@@ -17,7 +17,7 @@ const PrintMessage = ({ mailboxNumber, trackingNumber, packageType }: any) => {
         <Text fontSize="2xl">Package Type: {packageType}</Text>
         <Text fontSize="2xl">Delivery Date: {currentDate}</Text>
       </div>
-      <div className="print-sheet-2">
+      <div className="print-sheet-second">
         <Text fontSize="2xl">Mailbox Number:</Text>
         <Text as="b" fontSize="8xl">
           {mailboxNumber}
