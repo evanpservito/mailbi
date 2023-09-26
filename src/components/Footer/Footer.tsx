@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <div className="footer">
       <img src={logo} className="app-logo-footer" alt="logo" />
-      <Text as="i">Mailbi Version 1.5.0</Text>
+      <Text as="i">Mailbi Version 1.6.0</Text>
     </div>
   );
 };
