@@ -44,6 +44,11 @@ export const Navbar = () => {
         )}
         {user && (
           <li>
+            <NavLink to="/add-mailbox">Add Mailbox</NavLink>
+          </li>
+        )}
+        {user && (
+          <li>
             <NavLink to="/custom-message">Custom Message</NavLink>
           </li>
         )}

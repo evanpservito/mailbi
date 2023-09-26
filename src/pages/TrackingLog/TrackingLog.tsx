@@ -150,7 +150,7 @@ const TrackingLog = () => {
   });
 
   return (
-    <div>
+    <div className="tracking-log">
       <Text as="b" fontSize="4xl">
         Tracking Log
       </Text>

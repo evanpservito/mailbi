@@ -10,6 +10,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import Protected from "./components/Protected";
 import { Navbar } from "./components/Navbar/Navbar";
 import CustomMessage from "./pages/CustomMessage/CustomMessage";
+import AddMailbox from "./pages/AddMailbox/AddMailbox";
 
 function App() {
   return (
@@ -35,6 +36,16 @@ function App() {
                 <Protected>
                   <Navbar />
                   <PackageStatus />
+                  <Footer />
+                </Protected>
+              }
+            />
+            <Route
+              path="/add-mailbox"
+              element={
+                <Protected>
+                  <Navbar />
+                  <AddMailbox />
                   <Footer />
                 </Protected>
               }
