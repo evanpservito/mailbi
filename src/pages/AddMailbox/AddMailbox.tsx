@@ -26,9 +26,12 @@ import "./AddMailbox.css";
 
 const AddMailbox = () => {
   const [mailboxNumber, setMailboxNumber] = useState("");
-  const [customer, setCustomer] = useState("N/A");
-  const [phoneNumber, setPhoneNumber] = useState("N/A");
+  const [customer, setCustomer] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [validMailbox, setValidMailbox] = useState(false);
+  const [existingMailboxCustomer, setExistingMailboxCustomer] = useState("");
+  const [existingMailboxPhoneNumber, setExistingMailboxPhoneNumber] =
+    useState("");
   const [submitMailbox, setSubmitMailbox] = useState(false);
   const [mailboxID, setMailboxID] = useState("");
 
@@ -45,13 +48,16 @@ const AddMailbox = () => {
         items.push(doc.data());
       });
 
-      if (
-        items[0] == undefined ||
-        (items[0]["customer"] !== "" && items[0]["phoneNumber"] !== "")
-      ) {
-        setValidMailbox(false);
-      } else {
+      if (items[0] != undefined) {
+        if (items[0]["customer"] !== "" && items[0]["phoneNumber"] !== "") {
+          setExistingMailboxCustomer(items[0]["customer"]);
+          setExistingMailboxPhoneNumber(items[0]["phoneNumber"]);
+        }
         setValidMailbox(true);
+      } else {
+        setExistingMailboxCustomer("");
+        setExistingMailboxPhoneNumber("");
+        setValidMailbox(false);
       }
     });
     return () => {
@@ -117,7 +123,7 @@ const AddMailbox = () => {
         </HStack>
         <Text className="status-text">
           {submitMailbox
-            ? "Successfully added " +
+            ? "Successfully added/updated " +
               customer +
               " to mailbox #" +
               mailboxNumber +
@@ -125,9 +131,17 @@ const AddMailbox = () => {
               phoneNumber +
               "."
             : validMailbox
-            ? "Mailbox #" + mailboxNumber + " is available."
+            ? existingMailboxCustomer == "" && existingMailboxPhoneNumber == ""
+              ? "Mailbox #" + mailboxNumber + " is available."
+              : "Mailbox #" +
+                mailboxNumber +
+                " has existing customer " +
+                existingMailboxCustomer +
+                " with phone number " +
+                existingMailboxPhoneNumber +
+                ". Updating this mailbox will overwrite any current information of this mailbox."
             : mailboxNumber != "" &&
-              "ERROR: Invalid mailbox number (mailbox does not exist OR already has existing customer)"}
+              "ERROR: Invalid mailbox number (mailbox does not exist)"}
         </Text>
         <Text className="submit-text"></Text>
       </div>
