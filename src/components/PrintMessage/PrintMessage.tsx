@@ -1,4 +1,5 @@
 import { Text } from "@chakra-ui/react";
+import Barcode from "react-barcode";
 import "./PrintMessage.css";
 
 const PrintMessage = ({ mailboxNumber, trackingNumber, packageType }: any) => {
@@ -16,10 +17,19 @@ const PrintMessage = ({ mailboxNumber, trackingNumber, packageType }: any) => {
         <Text fontSize="xl">Tracking Number: {trackingNumber}</Text>
         <Text fontSize="xl">Package Type: {packageType}</Text>
         <Text fontSize="xl">Delivery Date: {currentDate}</Text>
-
         <div className="signatures">
           <Text>Staff Signature: ____________________</Text>
           <Text>Customer Signature: ____________________</Text>
+          <Text>Pickup Date: ____________________</Text>
+        </div>
+        <div className="barcode">
+          <Barcode
+            marginTop={40}
+            fontSize={10}
+            height={30}
+            width={1}
+            value={trackingNumber}
+          />
         </div>
       </div>
       <div className="print-sheet-second">
