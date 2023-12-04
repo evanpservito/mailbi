@@ -9,8 +9,12 @@
   .print-sheet-second {
     align-items: center;
     text-align: center;
-    margin-top: 10rem;
+    margin-top: 8rem;
     clear: both;
     page-break-after: always;
+  }
+
+  .signatures {
+    padding-top: 30px;
   }
 }
