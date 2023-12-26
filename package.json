@@ -1,7 +1,7 @@
 {
   "name": "mailbi",
   "private": true,
-  "version": "1.7.0",
+  "version": "1.8.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,12 +21,14 @@
     "netlify-lambda": "^2.0.16",
     "react": "^18.2.0",
     "react-barcode": "^1.4.6",
+    "react-barcode-reader": "^0.0.2",
     "react-dom": "^18.2.0",
     "react-google-button": "^0.7.2",
     "react-router-dom": "^6.15.0",
     "react-to-print": "^2.14.13",
     "serverless-http": "^3.2.0",
-    "twilio": "^4.16.0"
+    "twilio": "^4.16.0",
+    "use-scan-detection": "^0.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

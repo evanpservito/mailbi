@@ -11,6 +11,7 @@ import Protected from "./components/Protected";
 import { Navbar } from "./components/Navbar/Navbar";
 import CustomMessage from "./pages/CustomMessage/CustomMessage";
 import AddMailbox from "./pages/AddMailbox/AddMailbox";
+import Collection from "./pages/Collection/Collection";
 
 function App() {
   return (
@@ -26,6 +27,16 @@ function App() {
                 <Protected>
                   <Navbar />
                   <TrackingLog />
+                  <Footer />
+                </Protected>
+              }
+            />
+            <Route
+              path="/collection"
+              element={
+                <Protected>
+                  <Navbar />
+                  <Collection />
                   <Footer />
                 </Protected>
               }

@@ -39,6 +39,11 @@ export const Navbar = () => {
         )}
         {user && (
           <li>
+            <NavLink to="/collection">Collection</NavLink>
+          </li>
+        )}
+        {user && (
+          <li>
             <NavLink to="/package-status">Package Status</NavLink>
           </li>
         )}

@@ -213,7 +213,9 @@ const PackageStatus = () => {
                   .filter((p: any) => {
                     return search.toLowerCase() === ""
                       ? p
-                      : p[filterOption].toLowerCase().includes(search);
+                      : p[filterOption]
+                          .toLowerCase()
+                          .includes(search.toLowerCase());
                   })
                   .filter((p: any) => {
                     return toggleCollectedView == false

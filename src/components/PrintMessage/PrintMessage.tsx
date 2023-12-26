@@ -18,8 +18,8 @@ const PrintMessage = ({ mailboxNumber, trackingNumber, packageType }: any) => {
         <Text fontSize="xl">Package Type: {packageType}</Text>
         <Text fontSize="xl">Delivery Date: {currentDate}</Text>
         <div className="signatures">
-          <Text>Staff Signature: ____________________</Text>
           <Text>Customer Signature: ____________________</Text>
+          <Text>Staff Signature: ____________________</Text>
           <Text>Pickup Date: ____________________</Text>
         </div>
         <div className="barcode">
