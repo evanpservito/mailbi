@@ -19,6 +19,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "firebase": "^10.3.0",
+    "framer-motion": "^10.16.16",
     "netlify-lambda": "^2.0.16",
     "react": "^18.2.0",
     "react-barcode": "^1.4.6",
