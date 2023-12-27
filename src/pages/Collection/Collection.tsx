@@ -20,8 +20,9 @@ const Collection = () => {
   useScanDetection({
     onComplete: (num) => {
       if (!manualMode) {
-        setTrackingNumber(num);
-        collectPackage(num);
+        // Temporary fix to "Shift" substring appearing in barcode scan mode
+        setTrackingNumber(num.replace(/Shift/g, ""));
+        collectPackage(num.replace(/Shift/g, ""));
       }
     },
     minLength: 4,
