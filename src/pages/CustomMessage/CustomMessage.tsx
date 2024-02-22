@@ -62,6 +62,30 @@ const CustomMessage = () => {
     };
   };
 
+  const handleSendBirthdayMessage = async () => {
+    setMessageSent(false);
+    setIdle(false);
+    setSendMessageError(false);
+
+    await axios
+      .get(
+        `/.netlify/functions/api?message=${
+          "Incoming message from Mailpost Sammamish (please do not reply):%0a%0a" +
+          "Happy Birthday MJ! It's time to party!!!!! 🎉🎉🎉"
+        }&recipient=${import.meta.env.VITE_TWILIO_BIRTHDAY_NUMBER}`
+      )
+      .then((response) => {
+        setMessageSent(true);
+        setSentCustomer("MJ Park");
+        setSentPhoneNumber(import.meta.env.VITE_TWILIO_BIRTHDAY_NUMBER);
+        console.log(response);
+      })
+      .catch((error) => {
+        setSendMessageError(true);
+        console.log(error);
+      });
+  };
+
   const handleSendText = async () => {
     setMessageSent(false);
     setIdle(false);
@@ -148,6 +172,12 @@ const CustomMessage = () => {
         isDisabled={message === "" || mailboxNumber === ""}
       >
         Send Text
+      </Button>
+      <Button
+        className="send-text-button"
+        onClick={() => handleSendBirthdayMessage()}
+      >
+        Wish MJ a happy birthday (for a small cost of a fraction of a penny)!
       </Button>
     </div>
   );
