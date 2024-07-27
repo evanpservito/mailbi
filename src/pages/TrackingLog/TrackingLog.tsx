@@ -90,7 +90,8 @@ const TrackingLog = () => {
     trackingNumber: string,
     mailboxNumber: string,
     customer: string,
-    dateScanned: string
+    dateScanned: string,
+    packageType: string
   ) => {
     await addDoc(collection(db, "pending-packages"), {
       trackingNumber: trackingNumber,
@@ -98,6 +99,7 @@ const TrackingLog = () => {
       customer: customer,
       dateScanned: dateScanned,
       status: "Pending",
+      packageType: packageType,
     });
     // console.log("Added package with ID: ", docRef.id);
   };
@@ -130,7 +132,13 @@ const TrackingLog = () => {
     const today = new Date();
     const dateScanned =
       today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear();
-    addPendingPackage(trackingNumber, mailboxNumber, customer, dateScanned);
+    addPendingPackage(
+      trackingNumber,
+      mailboxNumber,
+      customer,
+      dateScanned,
+      packageType
+    );
   };
 
   const Message = React.forwardRef<HTMLInputElement>((_props, ref) => {

@@ -148,6 +148,7 @@ const PackageStatus = () => {
           <option value="trackingNumber">Tracking Number</option>
           <option value="mailboxNumber">Mailbox Number</option>
           <option value="customer">Customer</option>
+          {/* <option value="packageType">Type</option> */}
           <option value="dateScanned">Date Scanned</option>
           <option value="status">Status</option>
         </Select>
@@ -191,6 +192,15 @@ const PackageStatus = () => {
                 </Th>
                 <Th
                   cursor="pointer"
+                  onClick={() => sortPackages("packageType")}
+                >
+                  Type{" "}
+                  {focusedColumn === "packageType" &&
+                    ((order === "ASC" && <ArrowUpIcon />) ||
+                      (order === "DSC" && <ArrowDownIcon />))}
+                </Th>
+                <Th
+                  cursor="pointer"
                   onClick={() => sortPackages("dateScanned")}
                 >
                   Date Scanned{" "}
@@ -227,6 +237,7 @@ const PackageStatus = () => {
                       <Td>{p.trackingNumber}</Td>
                       <Td>{p.mailboxNumber}</Td>
                       <Td>{p.customer}</Td>
+                      <Td>{p.packageType}</Td>
                       <Td>{p.dateScanned}</Td>
                       <Td color={p.status == "Pending" ? "#cc9e12" : "green"}>
                         {p.status}
