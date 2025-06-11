@@ -87,7 +87,7 @@ const AddMailbox = () => {
           <FormControl id="mailbox-number" isRequired>
             <FormLabel>Mailbox Number</FormLabel>
             <NumberInput
-              max={3000}
+              max={4000}
               min={1}
               onChange={(e) => {
                 setMailboxNumber(e);
@@ -145,6 +145,7 @@ const AddMailbox = () => {
         </Text>
         <Text className="submit-text"></Text>
       </div>
+
       <Button
         className="add-mailbox-button"
         onClick={() => handleAddMailbox()}
