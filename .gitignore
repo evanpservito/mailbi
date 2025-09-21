@@ -13,7 +13,8 @@ server/python/**/*.pyc
 *.zip
 
 *.tfvars
-.env
+.env*
 .venv
 .pem
 /secrets
+.DS_Store
