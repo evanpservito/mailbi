@@ -1,0 +1,8 @@
+# GLOBAL GITIGNORE
+
+# misc
+.DS_Store
+*.pem
+
+# env files (can opt-in for committing if needed)
+.env*
