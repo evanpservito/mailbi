@@ -1,0 +1,7 @@
+﻿project_name   = ""
+aws_region     = ""
+vpc_id         = ""
+vpc_subnet_ids = ["",""]  #Lambda execution subnets
+db_security_group_id = ""                              # DB SG to receive traffic
+db_port = 0
+cognito_user_pool_arn = ""

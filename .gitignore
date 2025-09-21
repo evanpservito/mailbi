@@ -1,12 +1,19 @@
-<<<<<<< HEAD
-# GLOBAL GITIGNORE
+#tf state/logs
+server/terraform/.terraform/
+server/terraform/.terraform/**
+server/terraform/terraform.tfstate
+server/terraform/terraform.tfstate.*
+*.lock.*
+server/terraform/crash.log
+#build
+server/terraform/build/
+server/layer/
+server/python/**/__pycache__/
+server/python/**/*.pyc
+*.zip
 
-# misc
-.DS_Store
-*.pem
-
-# env files (can opt-in for committing if needed)
-.env*
-
+*.tfvars
+.env
+.venv
+.pem
 /secrets
-.venv*
