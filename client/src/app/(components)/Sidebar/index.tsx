@@ -15,6 +15,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { useActionState } from "react";
+import { handleSignOut } from "@/lib/cognitoActions";
+
 interface SidebarLinkProps {
   href: string;
   icon: LucideIcon;
@@ -67,6 +70,8 @@ const Sidebar = () => {
     dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   };
 
+  const [, userDispatch] = useActionState(handleSignOut, undefined);
+
   const sidebarClassNames = `fixed flex flex-col ${
     isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"
   } bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
@@ -102,21 +107,21 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/inventory"
+          href="/packages"
           icon={Archive}
-          label="Inventory"
+          label="Packages"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/products"
+          href="/mailboxes"
           icon={Clipboard}
-          label="Products"
+          label="Mailboxes"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/users"
+          href="/customers"
           icon={User}
-          label="Users"
+          label="Customers"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
@@ -135,6 +140,11 @@ const Sidebar = () => {
 
       {/* FOOTER */}
       <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-10`}>
+        <form action={userDispatch}>
+          <button className="flex h-[48px] w-full grow items-center border-2 justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3">
+            <div className="hidden md:block">Sign Out</div>
+          </button>
+        </form>
         <p className="text-center text-xs text-gray-500">&copy; 2025 Mailbi</p>
       </div>
     </div>
