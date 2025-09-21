@@ -33,7 +33,7 @@ const SidebarLink = ({
 }: SidebarLinkProps) => {
   const pathname = usePathname();
   const isActive =
-    pathname === href || (pathname === "/" && href === "/dashboard");
+    pathname === href || (pathname === "/" && href === "/Overview");
 
   return (
     <Link href={href}>
@@ -101,9 +101,9 @@ const Sidebar = () => {
       {/* LINKS */}
       <div className="flex-grow mt-8">
         <SidebarLink
-          href="/dashboard"
+          href="/overview"
           icon={Layout}
-          label="Dashboard"
+          label="Overview"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
@@ -119,21 +119,9 @@ const Sidebar = () => {
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink
-          href="/customers"
-          icon={User}
-          label="Customers"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
           href="/settings"
           icon={SlidersHorizontal}
           label="Settings"
-          isCollapsed={isSidebarCollapsed}
-        />
-        <SidebarLink
-          href="/expenses"
-          icon={CircleDollarSign}
-          label="Expenses"
           isCollapsed={isSidebarCollapsed}
         />
       </div>

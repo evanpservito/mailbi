@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 
-const Dashboard = () => {
+const Overview = () => {
   const testCall = () => {
     fetch("")
       .then((res) => res.json())
@@ -10,7 +10,7 @@ const Dashboard = () => {
   };
   return (
     <div>
-      <p>Dashboard</p>
+      <p>Overview</p>
       <button className="border-2 bg-amber-500" onClick={() => testCall()}>
         Test Call
       </button>
@@ -18,4 +18,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Overview;
