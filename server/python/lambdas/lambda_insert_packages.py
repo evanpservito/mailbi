@@ -1,15 +1,24 @@
-import json
-import psycopg2
 import boto3
-from datetime import datetime
+import psycopg2
+import json
 
-def get_connection():
+def get_secret(secret_name, region_name="us-west-1"):
+    session = boto3.session.Session()
+    client = session.client(service_name='secretsmanager', region_name=region_name)
+    response = client.get_secret_value(SecretId=secret_name)
+    secret = response.get('SecretString') 
+    return json.loads(secret) if secret else {}
+
+def get_connection(): 
+    secret_name = "rds!db-af844c39-6473-4450-838d-1643edeb8332"
+    creds = get_secret(secret_name)
+
     return psycopg2.connect(
-        host="127.0.0.1",
+        host="mailbi-dev.cdcqwic8gvhl.us-west-1.rds.amazonaws.com",
         port=5432,
         dbname="mailbidev",
-        user="root",
-        password="root"
+        user="postgres",
+        password=creds["password"]
     )
 
 def send_sms_and_track(conn, cur, store_id, customer_id, customer_first_name, customer_middle_name, customer_last_name, tracking_num, mailbox_name, carrier):
