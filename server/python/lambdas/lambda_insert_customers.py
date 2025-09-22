@@ -54,9 +54,19 @@ def lambda_handler(event, context):
 
                 values = []
                 for param in body["params"]:
+                    cur.execute(
+                        "SELECT id FROM mailboxes WHERE mailbox_name = %s AND store_id = %s",
+                        (param["mailbox_name"], body["store_id"])
+                    )
+                    mailbox_result = cur.fetchone()
+                    if not mailbox_result:
+                        continue
+                    
+                    mailbox_id = mailbox_result[0]
+                    
                     values.append((
                         body["store_id"], 
-                        param["mailbox_id"], 
+                        mailbox_id, 
                         param["first_name"], 
                         param.get("middle_name"), 
                         param["last_name"], 
@@ -65,6 +75,7 @@ def lambda_handler(event, context):
                     ))
 
                 cur.executemany(query, values)
+                inserted_count = len(values)
 
             conn.commit()
             
@@ -73,7 +84,7 @@ def lambda_handler(event, context):
             'headers': {'Content-Type': 'application/json'},
             'body': json.dumps({
                 'success': True,
-                'inserted_count': len(body["params"])
+                'inserted_count': inserted_count
             })
         }
         
