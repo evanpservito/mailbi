@@ -31,6 +31,7 @@ def lambda_handler(event, context):
             }
         
         body = event['body']
+        cognito_sub = event["requestContext"]["authorizer"]["claims"]["sub"]
         
         with get_connection() as conn:
             with conn.cursor() as cur:
@@ -50,7 +51,7 @@ def lambda_handler(event, context):
                     VALUES (%s, %s, %s, 'admin')
                     RETURNING id
                     """,
-                    (body["cognito_sub"], store_id, body["email"])
+                    (cognito_sub, store_id, body["email"])
                 )
                 admin_id = cur.fetchone()[0]
 

@@ -45,8 +45,35 @@ def lambda_handler(event, context):
         
         body = event['queryStringParameters']
         
+        try:
+            jwt_cognito_sub = event["requestContext"]["authorizer"]["claims"]["sub"]
+        except (KeyError, TypeError):
+            return {
+                'statusCode': 401,
+                'headers': {'Content-Type': 'application/json'},
+                'body': json.dumps({
+                    'success': False,
+                    'error': 'Missing or invalid JWT token'
+                })
+            }
+        
         with get_connection() as conn:
             with conn.cursor() as cur:
+                cur.execute(
+                    "SELECT cognito_sub FROM accounts WHERE id = %s",
+                    (body["account_id"],)
+                )
+                account_result = cur.fetchone()
+                if not account_result or account_result[0] != jwt_cognito_sub:
+                    return {
+                        'statusCode': 403,
+                        'headers': {'Content-Type': 'application/json'},
+                        'body': json.dumps({
+                            'success': False,
+                            'error': 'Forbidden: Account does not match authenticated user'
+                        })
+                    }
+                
                 cur.execute(
                     "SELECT set_config('app.current_role', %s, true)",
                     (str(body["current_role"]),)

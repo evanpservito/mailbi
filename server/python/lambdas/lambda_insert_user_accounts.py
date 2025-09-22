@@ -31,6 +31,7 @@ def lambda_handler(event, context):
             }
         
         body = event['body']
+        cognito_sub = event["requestContext"]["authorizer"]["claims"]["sub"]
         
         with get_connection() as conn:
             with conn.cursor() as cur:
@@ -58,7 +59,7 @@ def lambda_handler(event, context):
                     )
                 """
 
-                values = [(param["cognito_sub"], body["store_id"], param.get("email")) for param in body["params"]]
+                values = [(cognito_sub, body["store_id"], param.get("email")) for param in body["params"]]
 
                 cur.executemany(query, values)
 
