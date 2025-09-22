@@ -1,6 +1,7 @@
 import boto3
 import psycopg2
 import json
+from datetime import date, datetime
 
 def get_secret(secret_name, region_name="us-west-1"):
     session = boto3.session.Session()
@@ -20,6 +21,18 @@ def get_connection():
         user="postgres",
         password=creds["password"]
     )
+
+def convert_dates_to_strings(obj):
+    if isinstance(obj, date):
+        return obj.isoformat()
+    elif isinstance(obj, datetime):
+        return obj.isoformat()
+    elif isinstance(obj, dict):
+        return {key: convert_dates_to_strings(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_dates_to_strings(item) for item in obj]
+    else:
+        return obj
 
 def lambda_handler(event, context):
     try:
@@ -136,6 +149,7 @@ def lambda_handler(event, context):
                 results = cur.fetchall()
                 
                 data = [dict(zip(columns, row)) for row in results]
+                data = convert_dates_to_strings(data)
             
         return {
             'statusCode': 200,
