@@ -43,7 +43,7 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': 'Method not allowed'})
             }
         
-        body = event['body']
+        body = event['queryStringParameters']
         
         with get_connection() as conn:
             with conn.cursor() as cur:
