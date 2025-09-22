@@ -76,7 +76,7 @@ export async function handleSignIn(
   prevState: string | undefined,
   formData: FormData
 ) {
-  let redirectLink = "/dashboard";
+  let redirectLink = "/overview";
   try {
     const { isSignedIn, nextStep } = await signIn({
       username: String(formData.get("email")),

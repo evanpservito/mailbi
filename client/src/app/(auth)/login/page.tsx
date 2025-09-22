@@ -22,6 +22,7 @@ export default function Login() {
               className=""
               type="email"
               id="email"
+              name="email"
               placeholder="Email Address"
               required
             />
@@ -31,6 +32,7 @@ export default function Login() {
             <Input
               className=""
               id="password"
+              name="password"
               type="password"
               placeholder="Enter password"
               required

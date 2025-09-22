@@ -5,7 +5,12 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const user = await authenticatedUser({ request, response });
 
-  const isOnDashboard = request.nextUrl.pathname.startsWith("/");
+  // TODO: make this logic cleaner
+  const isOnDashboard =
+    request.nextUrl.pathname.startsWith("/") &&
+    !["/signup", "/confirm-signup", "/login"].includes(
+      request.nextUrl.pathname
+    );
   const isOnAdminArea = request.nextUrl.pathname.startsWith("/admins");
 
   if (isOnDashboard) {
