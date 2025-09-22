@@ -47,10 +47,10 @@ def lambda_handler(event, context):
                     (str(body["store_id"]),)
                 )
                 
-                package_ids = body["package_ids"]
+                tracking_nums = body["tracking_nums"]
                 
                 query = "DELETE FROM packages WHERE tracking_num = ANY(%s)"
-                cur.execute(query, (package_ids,))
+                cur.execute(query, (tracking_nums,))
                 
             conn.commit()
             

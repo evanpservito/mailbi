@@ -51,9 +51,24 @@ def lambda_handler(event, context):
                 updates = []
                 params = []
                 
-                if "mailbox_id" in body:
+                if "mailbox_name" in body:
+                    cur.execute(
+                        "SELECT id FROM mailboxes WHERE mailbox_name = %s AND store_id = %s",
+                        (body["mailbox_name"], body["store_id"])
+                    )
+                    mailbox_result = cur.fetchone()
+                    if not mailbox_result:
+                        return {
+                            'statusCode': 400,
+                            'headers': {'Content-Type': 'application/json'},
+                            'body': json.dumps({
+                                'success': False,
+                                'error': 'Mailbox not found in this store'
+                            })
+                        }
+                    
                     updates.append("mailbox_id = %s")
-                    params.append(body["mailbox_id"])
+                    params.append(mailbox_result[0])
                 
                 if "first_name" in body:
                     updates.append("first_name = %s")

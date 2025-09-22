@@ -5,7 +5,7 @@ sample_packages_delete = {
         "store_id": 2,
         "account_id": 5,
         "current_role": "admin",
-        "package_ids": ["ABC123", "123ABC"]
+        "tracking_nums": ["ABC123", "123ABC"]
     }
 }
 

@@ -55,13 +55,50 @@ def lambda_handler(event, context):
                     updates.append("record_date = %s")
                     params.append(body["record_date"])
                 
-                if "mailbox_id" in body:
+                if "mailbox_name" in body:
+                    cur.execute(
+                        "SELECT id FROM mailboxes WHERE mailbox_name = %s AND store_id = %s",
+                        (body["mailbox_name"], body["store_id"])
+                    )
+                    mailbox_result = cur.fetchone()
+                    if not mailbox_result:
+                        return {
+                            'statusCode': 400,
+                            'headers': {'Content-Type': 'application/json'},
+                            'body': json.dumps({
+                                'success': False,
+                                'error': 'Mailbox not found in this store'
+                            })
+                        }
+                    
                     updates.append("mailbox_id = %s")
-                    params.append(body["mailbox_id"])
+                    params.append(mailbox_result[0])
                 
-                if "customer_id" in body:
+                if "customer_first_name" in body and "customer_last_name" in body:
+                    if body.get("customer_middle_name"):
+                        cur.execute(
+                            "SELECT id FROM customers WHERE first_name = %s AND middle_name = %s AND last_name = %s AND store_id = %s",
+                            (body["customer_first_name"], body["customer_middle_name"], body["customer_last_name"], body["store_id"])
+                        )
+                    else:
+                        cur.execute(
+                            "SELECT id FROM customers WHERE first_name = %s AND last_name = %s AND store_id = %s",
+                            (body["customer_first_name"], body["customer_last_name"], body["store_id"])
+                        )
+                    
+                    customer_result = cur.fetchone()
+                    if not customer_result:
+                        return {
+                            'statusCode': 400,
+                            'headers': {'Content-Type': 'application/json'},
+                            'body': json.dumps({
+                                'success': False,
+                                'error': 'Customer not found in this store'
+                            })
+                        }
+                    
                     updates.append("customer_id = %s")
-                    params.append(body["customer_id"])
+                    params.append(customer_result[0])
                 
                 if "carrier" in body:
                     updates.append("carrier = %s")
