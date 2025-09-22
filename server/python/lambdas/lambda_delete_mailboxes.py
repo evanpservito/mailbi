@@ -29,8 +29,8 @@ def lambda_handler(event, context):
                 'headers': {'Content-Type': 'application/json'},
                 'body': json.dumps({'error': 'Method not allowed'})
             }
-        
-        body = json.loads(event['body'])
+
+        body = event['body']
         
         with get_connection() as conn:
             with conn.cursor() as cur:
