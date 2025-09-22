@@ -1,8 +1,8 @@
 #tf state/logs
 server/terraform/.terraform/
 server/terraform/.terraform/**
-server/terraform/terraform.tfstate
-server/terraform/terraform.tfstate.*
+*.tfstate
+*.tfstate.*
 *.lock.*
 server/terraform/crash.log
 #build
