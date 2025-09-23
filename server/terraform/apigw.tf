@@ -81,7 +81,7 @@ resource "aws_api_gateway_method" "get" {
   http_method        = "GET"
   authorization      = "COGNITO_USER_POOLS"
   authorizer_id      = aws_api_gateway_authorizer.cognito.id
-  api_key_required   = true
+  api_key_required   = false
 }
 
 # Lambda proxy integration - GET
@@ -103,7 +103,7 @@ resource "aws_api_gateway_method" "post" {
   http_method        = "POST"
   authorization      = "COGNITO_USER_POOLS"
   authorizer_id      = aws_api_gateway_authorizer.cognito.id
-  api_key_required   = true
+  api_key_required   = false
 }
 
 resource "aws_api_gateway_integration" "post" {
@@ -124,7 +124,7 @@ resource "aws_api_gateway_method" "put" {
   http_method        = "PUT"
   authorization      = "COGNITO_USER_POOLS"
   authorizer_id      = aws_api_gateway_authorizer.cognito.id
-  api_key_required   = true
+  api_key_required   = false
 }
 
 resource "aws_api_gateway_integration" "put" {
@@ -145,7 +145,55 @@ resource "aws_api_gateway_method" "delete" {
   http_method        = "DELETE"
   authorization      = "COGNITO_USER_POOLS"
   authorizer_id      = aws_api_gateway_authorizer.cognito.id
-  api_key_required   = true
+  api_key_required   = false
+}
+
+# CORS: OPTIONS method across all resources
+resource "aws_api_gateway_method" "options" {
+  for_each           = local.resource_names
+  rest_api_id        = aws_api_gateway_rest_api.api.id
+  resource_id        = aws_api_gateway_resource.route[each.value].id
+  http_method        = "OPTIONS"
+  authorization      = "NONE"
+}
+
+resource "aws_api_gateway_integration" "options" {
+  for_each                = local.resource_names
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.route[each.value].id
+  http_method             = aws_api_gateway_method.options[each.value].http_method
+  type                    = "MOCK"
+  request_templates       = { "application/json" = jsonencode({ statusCode = 200 }) }
+}
+
+resource "aws_api_gateway_method_response" "options" {
+  for_each    = local.resource_names
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.route[each.value].id
+  http_method = aws_api_gateway_method.options[each.value].http_method
+  status_code = "200"
+
+  response_models = { "application/json" = "Empty" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true,
+    "method.response.header.Access-Control-Allow-Methods" = true,
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "options" {
+  for_each    = local.resource_names
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.route[each.value].id
+  http_method = aws_api_gateway_method.options[each.value].http_method
+  status_code = aws_api_gateway_method_response.options[each.value].status_code
+
+  response_templates = { "application/json" = "" }
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,PUT,DELETE,OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
 }
 
 resource "aws_api_gateway_integration" "delete" {
@@ -179,13 +227,15 @@ resource "aws_api_gateway_deployment" "deployment" {
         [for k, m in aws_api_gateway_method.get : m.id],
         [for k, m in aws_api_gateway_method.post : m.id],
         [for k, m in aws_api_gateway_method.put : m.id],
-        [for k, m in aws_api_gateway_method.delete : m.id]
+        [for k, m in aws_api_gateway_method.delete : m.id],
+        [for k, m in aws_api_gateway_method.options : m.id]
       )
       integrations= concat(
         [for k, i in aws_api_gateway_integration.get : i.id],
         [for k, i in aws_api_gateway_integration.post : i.id],
         [for k, i in aws_api_gateway_integration.put : i.id],
-        [for k, i in aws_api_gateway_integration.delete : i.id]
+        [for k, i in aws_api_gateway_integration.delete : i.id],
+        [for k, i in aws_api_gateway_integration.options : i.id]
       )
     }))
   }
@@ -202,28 +252,6 @@ resource "aws_api_gateway_stage" "stage" {
 }
 
 # Require API key usage plan and key
-resource "aws_api_gateway_api_key" "key" {
-  name = "${local.project_name}-api-key"
-}
-
-resource "aws_api_gateway_usage_plan" "plan" {
-  name = "${local.project_name}-usage-plan"
-
-  api_stages {
-    api_id = aws_api_gateway_rest_api.api.id
-    stage  = aws_api_gateway_stage.stage.stage_name
-  }
-
-  throttle_settings {
-    burst_limit = var.usage_burst_limit
-    rate_limit  = var.usage_rate_limit
-  }
-}
-
-resource "aws_api_gateway_usage_plan_key" "key_attachment" {
-  key_id        = aws_api_gateway_api_key.key.id
-  key_type      = "API_KEY"
-  usage_plan_id = aws_api_gateway_usage_plan.plan.id
-}
+/* API Key and usage plan removed */
 
 
