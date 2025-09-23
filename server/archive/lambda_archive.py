@@ -71,10 +71,6 @@ def lambda_handler(event, context):
             print("No data to archive.")
             return "No data to archive."
         
-        print(f"Archived and deleted {total_rows} total rows.")
-        print(f"Packages: {packages_rows} rows -> {packages_key}")
-        print(f"Messages: {messages_rows} rows -> {messages_key}")
-        
         return f"Archived and deleted {total_rows} total rows."
         
     except Exception as e:
