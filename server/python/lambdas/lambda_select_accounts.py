@@ -1,6 +1,7 @@
 import boto3
 import psycopg2
 import json
+from datetime import datetime
 
 def get_secret(secret_name, region_name="us-west-1"):
     session = boto3.session.Session()
@@ -20,6 +21,11 @@ def get_connection():
         user="postgres",
         password=creds["password"]
     )
+
+def serialize_datetime(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    return obj
 
 def lambda_handler(event, context):
     try:
@@ -90,7 +96,11 @@ def lambda_handler(event, context):
                 columns = [desc[0] for desc in cur.description]
                 results = cur.fetchall()
                 
-                data = [dict(zip(columns, row)) for row in results]
+                data = []
+                for row in results:
+                    row_dict = dict(zip(columns, row))
+                    serialized_row = {k: serialize_datetime(v) for k, v in row_dict.items()}
+                    data.append(serialized_row)
             
         return {
             'statusCode': 200,
