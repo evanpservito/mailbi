@@ -64,6 +64,24 @@ variable "log_retention_days" {
   default     = 14
 }
 
+variable "s3_gateway_route_table_ids" {
+  description = "List of route table IDs for S3 Gateway VPC endpoint"
+  type        = list(string)
+  default     = []
+}
+
+variable "aws_sdk_pandas_layer_arn" {
+  description = "Optional: ARN for AWS SDK for pandas (Data Wrangler) layer to attach to mailbi-archive"
+  type        = string
+  default     = ""
+}
+
+variable "archive_s3_bucket_arns" {
+  description = "List of S3 bucket ARNs the archive job may access (bucket ARNs; object ARNs inferred)"
+  type        = list(string)
+  default     = []
+}
+
 variable "api_stage_name" {
   description = "API Gateway stage name"
   type        = string

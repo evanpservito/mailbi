@@ -17,11 +17,3 @@ output "api_invoke_base_url" {
   description = "Base invoke URL for the API stage"
   value       = "https://${aws_api_gateway_rest_api.api.id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_stage.stage.stage_name}"
 }
-
-output "api_key_value" {
-  description = "API key value"
-  value       = aws_api_gateway_api_key.key.value
-  sensitive   = true
-}
-
-

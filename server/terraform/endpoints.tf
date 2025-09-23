@@ -39,6 +39,16 @@ resource "aws_vpc_endpoint" "secretsmanager" {
   security_group_ids   = aws_security_group.vpce_secrets[*].id
 }
 
+## S3 Gateway VPC Endpoint (recommended). Provide route table IDs covering the subnets.
+resource "aws_vpc_endpoint" "s3_gateway" {
+  count             = var.vpc_id != null && length(var.s3_gateway_route_table_ids) > 0 ? 1 : 0
+  vpc_id            = var.vpc_id
+  service_name      = "com.amazonaws.${var.aws_region}.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids   = var.s3_gateway_route_table_ids
+}
+
+
 # IAM permissions for Lambda to access Secrets Manager
 data "aws_iam_policy_document" "lambda_secrets_access" {
   statement {
